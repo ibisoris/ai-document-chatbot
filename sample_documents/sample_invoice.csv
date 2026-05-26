@@ -1,0 +1,4 @@
+invoice_number,date,client,service,hours,rate,total
+INV-001,2026-01-15,Acme Services,Data analysis,12,50,600
+INV-002,2026-01-22,Northwind Group,Dashboard development,18,60,1080
+INV-003,2026-02-05,Blue River Ltd,Document processing setup,10,55,550

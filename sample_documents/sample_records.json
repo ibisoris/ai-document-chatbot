@@ -1,0 +1,20 @@
+[
+  {
+    "employee_id": "E001",
+    "department": "Data",
+    "skill": "Python",
+    "level": "Advanced"
+  },
+  {
+    "employee_id": "E002",
+    "department": "Operations",
+    "skill": "Process documentation",
+    "level": "Intermediate"
+  },
+  {
+    "employee_id": "E003",
+    "department": "Engineering",
+    "skill": "API development",
+    "level": "Advanced"
+  }
+]

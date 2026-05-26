@@ -4,6 +4,16 @@ An end-to-end Retrieval-Augmented Generation application for querying structured
 
 The system uses a Streamlit frontend, a FastAPI backend, reusable RAG service modules, ChromaDB for vector search, sentence-transformer embeddings, and OpenAI for grounded answer generation.
 
+## Screenshots
+
+### Streamlit Chat Interface
+
+![Streamlit Chat Interface](screenshots/streamlit-chatbot-answer.png)
+
+### FastAPI Documentation
+
+![FastAPI Documentation](screenshots/fastapi-docs.png)
+
 ## Architecture
 
 ```text
@@ -77,12 +87,23 @@ Structured files are converted into row-oriented or record-oriented text before 
 ```text
 ai-document-chatbot/
   app.py
+  Dockerfile
+  docker-compose.yml
   requirements.txt
   README.md
   .env.example
   .gitignore
   documents/
     .gitkeep
+  sample_documents/
+    sample_invoice.csv
+    sample_policy.txt
+    sample_records.json
+  screenshots/
+    fastapi-docs.png
+    streamlit-chatbot-answer.png
+  tests/
+    test_api.py
   vector_store/
   backend/
     __init__.py
@@ -207,6 +228,65 @@ The frontend runs at:
 ```text
 http://localhost:8501
 ```
+
+## Docker
+
+The project includes a Dockerfile for the FastAPI backend and a docker-compose configuration for running both services.
+
+Build and start the backend and frontend:
+
+```bash
+docker compose up --build
+```
+
+Services:
+
+```text
+Backend:  http://localhost:8000
+Frontend: http://localhost:8501
+API docs: http://localhost:8000/docs
+```
+
+The compose file mounts local `documents/` and `vector_store/` folders so uploaded files and vector data can persist between container restarts.
+
+## Testing
+
+The test suite validates the main backend API contract without requiring OpenAI calls or embedding model downloads. External RAG dependencies are mocked during tests.
+
+Run tests:
+
+```bash
+pytest
+```
+
+Covered endpoints:
+
+- POST /upload-document
+- POST /ask-question
+
+## Deployment
+
+The application can be deployed as two services.
+
+Backend service:
+
+- Runtime command: `python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000`
+- Required environment variable: `OPENAI_API_KEY`
+- Optional environment variable: `OPENAI_MODEL`
+- Persistent storage recommended for `documents/` and `vector_store/`
+
+Frontend service:
+
+- Runtime command: `streamlit run app.py --server.address 0.0.0.0 --server.port 8501`
+- Required environment variable: `BACKEND_API_URL`
+
+Recommended deployment targets:
+
+- Docker Compose on a virtual machine
+- Render or Railway for separate backend and frontend services
+- Azure App Service or AWS Elastic Beanstalk for containerized deployment
+
+For production use, add authentication, stricter CORS settings, file size limits, and managed persistent storage.
 
 ## Example Usage
 
